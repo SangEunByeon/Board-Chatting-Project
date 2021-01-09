@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.example.demo.dao.IMemberDao">
+	
+	<select id="loginCheckDao" resultType="int">
+	SELECT COUNT(*) FROM MEMBER 
+	WHERE ID = #{param1} AND PASSWORD = #{param2}
+    </select>
+    
+    <insert id="joinActionDao" parameterType="com.example.demo.dto.MemberDto">
+    INSERT INTO MEMBER (id, password, name, mail1, mail2,
+    phone, address1, address2, address3, address4) 
+    VALUES(#{id},#{password},#{name},#{mail1},#{mail2},
+    #{phone},#{address1},#{address2},#{address3},#{address4})
+    </insert> 
+    
+    <select id="idCheckDao" resultType="int" parameterType="String">
+    SELECT COUNT(*) FROM MEMBER WHERE ID = #{param1}
+    </select>
+    
+</mapper>
