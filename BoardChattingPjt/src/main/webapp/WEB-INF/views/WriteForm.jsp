@@ -12,10 +12,20 @@
 	display: flex;
 	justify-content: center;
 	text-align: center;
+	margin-bottom: 200px;
 	}
 	.WriteDiv{
 	margin-top: 120px;
 	width: 1000px;
+	}
+	textArea{
+	width : 600px;
+	height : 250px;
+	resize: none;
+	}
+	p{
+	font-family: 'Do Hyeon', sans-serif;
+	font-size: 30px;
 	}
 	</style>
 </head>
@@ -24,11 +34,12 @@
 
 <div class="WriteWrapper">
 	<div class="WriteDiv">
+	<p>글 작성</p>
 	<form action="WriteAction" method="post" enctype="multipart/form-data">
 		<table class="table table-striped">
 			<tr>
-				<td>글 제목</td>
-				<td><input type="text" name="title"/></td>
+				<td colspan="1">글 제목</td>
+				<td colspan="3"><input type="text" name="title" style="width : 600px"/></td>
 			</tr>
 			<tr>
 				<td>카테고리</td>
@@ -42,7 +53,7 @@
 			</tr>
 			<tr>
 				<td>글 내용</td>
-				<td><input type="textArea" name="contents"/></td>
+				<td><textarea type="textArea" name="contents" cols="70" row="100"></textarea></td>
 			</tr>
 			<tr>
 				<td>이미지 첨부</td>
@@ -56,6 +67,5 @@
 	</div>
 </div>
 
-<jsp:include page="/WEB-INF/views/Footer.jsp"/>
 </body>
 </html>

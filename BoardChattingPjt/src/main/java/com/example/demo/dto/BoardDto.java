@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class BoardDto {
+	private int idx;
 	private String title;
 	private String writer;
 	private String category;
@@ -15,6 +16,7 @@ public class BoardDto {
 	private String file3;
 	private String file4;
 	private String file5;
+	private int hit;
 	private Date reg;
 
 	

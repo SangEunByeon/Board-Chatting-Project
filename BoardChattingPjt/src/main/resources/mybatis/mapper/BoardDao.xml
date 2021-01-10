@@ -6,9 +6,15 @@
 <mapper namespace="com.example.demo.dao.IBoardDao">
 
 	<insert id="writeDao" parameterType="com.example.demo.dto.BoardDto">
-	INSERT INTO BOARD(title, writer, category, contents, file1, file2, file3, file4, file5, reg)
+	INSERT INTO BOARD(title, writer, category, contents, file1, file2, file3, 
+	file4, file5, hit, reg)
 	VALUES(#{title}, #{writer}, #{category}, #{contents},
-	 #{file1}, #{file2}, #{file3}, #{file4}, #{file5}, #{reg})
+	 #{file1}, #{file2}, #{file3}, #{file4}, #{file5},#{hit}, #{reg})
 	</insert>
+	
+	
+	<select id="getListDao" resultType="com.example.demo.dto.BoardDto">
+	SELECT * FROM BOARD ORDER BY reg DESC;
+	</select>
 
 </mapper>

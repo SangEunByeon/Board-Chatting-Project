@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +19,10 @@
 	margin-top: 120px;
 	width: 1000px;
 	}
+	p{
+	font-family: 'Do Hyeon', sans-serif;
+	font-size: 30px;
+	}
 	</style>
 	<script type="text/javascript">
 	function writeForm(){
@@ -29,47 +34,34 @@
 <body>
 <jsp:include page="/WEB-INF/views/Header.jsp"/>
 
-게시판 내용이 들어갑니다.
+
 
 <div class="BoardWrapper">
 	<div class="BoardDiv">
+	<p>자유 게시판</p>
 		<table class="table table-striped table-hover">
+			<thead>
 			<tr>
 				<td>번호</td>
-				<td>제목</td>
+				<td style="width: 150px;">제목</td>
 				<td>작성자</td>
-				<td>작성일</td>
+				<td style="width: 200px;">작성일</td>
 				<td>조회</td>
 			</tr>
+			</thead>
+			<tbody>
+			<c:forEach items="${list}" var="list">
+			<fmt:formatDate var="reg" value="${list.reg}" pattern="yyyy-mm-dd hh:mm:ss "/>
 			<tr>
-				<td>1</td>
-				<td>제목1</td>
-				<td>user1</td>
-				<td>2021-01-10</td>
-				<td>0</td>
+				<td>${list.idx}</td>
+				<td><a href="BoardDetail?idx=${list.idx}">${list.title}</a></td>
+				<td>${list.writer}</td>
+				<td>${reg}</td>
+				<td>${list.hit}</td>
 			</tr>
-			<tr>
-				<td>1</td>
-				<td>제목1</td>
-				<td>user1</td>
-				<td>2021-01-10</td>
-				<td>0</td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>제목1</td>
-				<td>user1</td>
-				<td>2021-01-10</td>
-				<td>0</td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>제목1</td>
-				<td>user1</td>
-				<td>2021-01-10</td>
-				<td>0</td>
-			</tr>
+			</c:forEach>
 		
+			</tbody>
 		</table>
 		<button class="btn btn-primary" onclick="writeForm()">글쓰기</button>
 	</div>

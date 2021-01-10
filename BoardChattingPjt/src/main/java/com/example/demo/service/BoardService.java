@@ -33,31 +33,25 @@ public class BoardService implements IBoardService {
 		dto.setWriter(request.getParameter("writer"));
 		dto.setCategory(request.getParameter("category"));
 		dto.setContents(request.getParameter("contents"));
+		dto.setHit(0);
 		dto.setReg(new Date());
 		List<MultipartFile> fileList = mtfRequest.getFiles("files");
-		fileUploadService.restore(fileList);
+		List<String> saveFileNames=fileUploadService.restore(fileList);
 		
-		if(fileList.size()==1) {
-			dto.setFile1("upload/"+fileList.get(0).getOriginalFilename());
-			System.out.println("file1경로:"+"upload/"+fileList.get(0).getOriginalFilename());
-		}else if(fileList.size()==2) {
-			dto.setFile1("upload/"+fileList.get(0).getOriginalFilename());
-			dto.setFile2("upload/"+fileList.get(1).getOriginalFilename());	
-		}else if(fileList.size()==3) {
-			dto.setFile1("upload/"+fileList.get(0).getOriginalFilename());
-			dto.setFile2("upload/"+fileList.get(1).getOriginalFilename());	
-			dto.setFile3("upload/"+fileList.get(2).getOriginalFilename());		
-		}else if(fileList.size()==4) {
-			dto.setFile1("upload/"+fileList.get(0).getOriginalFilename());
-			dto.setFile2("upload/"+fileList.get(1).getOriginalFilename());	
-			dto.setFile3("upload/"+fileList.get(2).getOriginalFilename());		
-			dto.setFile4("upload/"+fileList.get(3).getOriginalFilename());		
-		}else if(fileList.size()==5) {
-			dto.setFile1("upload/"+fileList.get(0).getOriginalFilename());
-			dto.setFile2("upload/"+fileList.get(1).getOriginalFilename());	
-			dto.setFile3("upload/"+fileList.get(2).getOriginalFilename());		
-			dto.setFile4("upload/"+fileList.get(3).getOriginalFilename());	
-			dto.setFile5("upload/"+fileList.get(4).getOriginalFilename());	
+		if(saveFileNames.size()>=1) {
+			dto.setFile1("upload/"+saveFileNames.get(0));
+		}
+		if(saveFileNames.size()>=2) {
+			dto.setFile2("upload/"+saveFileNames.get(1));	
+		}
+		if(saveFileNames.size()>=3) {
+			dto.setFile3("upload/"+saveFileNames.get(2));	
+		}
+		if(saveFileNames.size()>=4) {
+			dto.setFile4("upload/"+saveFileNames.get(3));	
+		}
+		if(saveFileNames.size()>=5) {
+			dto.setFile5("upload/"+saveFileNames.get(4));	
 		}
 		dao.writeDao(dto);	
 	}
@@ -72,6 +66,18 @@ public class BoardService implements IBoardService {
 	public void delete() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<BoardDto> getList() {
+		List<BoardDto> list=dao.getListDao();
+		return list;
+	}
+
+	@Override
+	public BoardDto getWritting() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

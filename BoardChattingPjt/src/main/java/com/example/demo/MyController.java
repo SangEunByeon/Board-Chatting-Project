@@ -84,7 +84,9 @@ public class MyController {
 	
 	// 게시판폼
 	@RequestMapping("BoardForm")
-	public String BoardForm() { return "BoardForm"; }
+	public String BoardForm(Model model) { 
+		model.addAttribute("list",bs.getList());
+		return "BoardForm"; }
 	
 	// 프로필 폼
 	@RequestMapping("Profile")
@@ -106,6 +108,14 @@ public class MyController {
 		model.addAttribute("msg","글이 등록되었습니다.");
 		model.addAttribute("url","WriteForm");
 		return "redirect";
+	}
+	
+	// 글보기 폼
+	@RequestMapping("BoardDetail")
+	public String BoardDetail(HttpServletRequest request) {
+		String s_idx = request.getParameter("idx");
+		int idx = Integer.parseInt(s_idx);
+		return "BoardDetail";
 	}
 
 	
