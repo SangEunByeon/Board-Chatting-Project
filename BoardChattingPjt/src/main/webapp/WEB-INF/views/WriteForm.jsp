@@ -28,26 +28,27 @@
 		<table class="table table-striped">
 			<tr>
 				<td>글 제목</td>
-				<td><input type="text"/></td>
+				<td><input type="text" name="title"/></td>
 			</tr>
 			<tr>
 				<td>카테고리</td>
 				<td>
-					<select name="">
-						<option>분류1</option>
-						<option>분류2</option>
-						<option>분류3</option>
+					<select name="category">
+						<option value="1">분류1</option>
+						<option value="2">분류2</option>
+						<option value="3">분류3</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td>글 내용</td>
-				<td><input type="textArea"/></td>
+				<td><input type="textArea" name="contents"/></td>
 			</tr>
 			<tr>
 				<td>이미지 첨부</td>
 				<td><input type="file" multiple="multiple" name="files"/></td>
 			</tr>
+			<input type="hidden" name="writer" value="${id}"/>
 		</table>
 		<button type="submit" class="btn btn-primary">등록</button>
 		<button type="button" class="btn btn-outline-primary">취소</button>

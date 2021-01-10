@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,15 +92,20 @@ public class MyController {
 	
 	// 글쓰기 폼
 	@RequestMapping("WriteForm")
-	public String writeForm() { return "WriteForm"; }
+	public String writeForm(HttpServletRequest request,Model model) {
+		HttpSession session = request.getSession();
+		String id =(String)session.getAttribute("sessionID");
+		model.addAttribute("id",id);
+		return "WriteForm"; }
 	
 	// 글쓰기 로직
 	@RequestMapping(value="WriteAction", method=RequestMethod.POST)
 	public String WriteAction(HttpServletRequest request, 
-				MultipartHttpServletRequest fileList, Model model) {
+				MultipartHttpServletRequest fileList, Model model) throws Exception {
 		bs.write(request, fileList, model);
-		
-		return "";
+		model.addAttribute("msg","글이 등록되었습니다.");
+		model.addAttribute("url","WriteForm");
+		return "redirect";
 	}
 
 	

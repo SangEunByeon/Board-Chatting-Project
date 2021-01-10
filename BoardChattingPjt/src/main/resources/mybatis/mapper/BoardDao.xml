@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.IBoardDao">
+
+	<insert id="writeDao" parameterType="com.example.demo.dto.BoardDto">
+	INSERT INTO BOARD(title, writer, category, contents, file1, file2, file3, file4, file5, reg)
+	VALUES(#{title}, #{writer}, #{category}, #{contents},
+	 #{file1}, #{file2}, #{file3}, #{file4}, #{file5}, #{reg})
+	</insert>
+
+</mapper>
