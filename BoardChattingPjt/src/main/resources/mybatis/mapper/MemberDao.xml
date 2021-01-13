@@ -22,4 +22,8 @@
     SELECT COUNT(*) FROM MEMBER WHERE ID = #{param1}
     </select>
     
+    <select id="getMemInfoDao" resultType="com.example.demo.dto.MemberDto">
+    SELECT * FROM MEMBER WHERE ID = #{id}
+    </select>
+    
 </mapper>

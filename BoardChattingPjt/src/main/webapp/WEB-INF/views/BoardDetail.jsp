@@ -23,6 +23,11 @@
 	font-size: 30px;
 	}
 </style>
+<script>
+	function BoardForm(){
+		location.href="BoardForm";
+		}
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/Header.jsp"/>
@@ -33,21 +38,21 @@
 		<table class="table">
 			<tr>
 				<td colspan="1" class="table-secondary">글 제목</td>
-				<td colspan="3">글제목입니당.</td>
+				<td colspan="3">${dto.title}</td>
 			</tr>
 			<tr>
 				<td colspan="1" class="table-secondary">글쓴이</td>
-				<td colspan="1">글쓴이입니당.</td>
+				<td colspan="1">${dto.writer}</td>
 				<td colspan="1" class="table-secondary">조회수</td>
-				<td colspan="1">0</td>
+				<td colspan="1">${dto.hit}</td>
 			</tr>
 			<tr style="height: 200px">
 				<td colspan="1" class="table-secondary">글 내용</td>
-				<td colspan="3">글내용입니당.</td>
+				<td colspan="3">${dto.contents}</td>
 			</tr>
 		</table>
-		<button class="btn btn-primary">목록으로</button>
-	
+		<button class="btn btn-primary" onclick="BoardForm()">목록으로</button>
+				
 	
 	</div>
 	</div>

@@ -15,15 +15,17 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.example.demo.FileUploadService;
 import com.example.demo.dao.IBoardDao;
 import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.Pagination;
 
 @Service
 public class BoardService implements IBoardService {
 	
 	@Autowired
 	FileUploadService fileUploadService;
-	
 	@Autowired
 	IBoardDao dao;
+	
+	 
 	
 	@Override
 	public void write(HttpServletRequest request, 
@@ -69,15 +71,33 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
-	public List<BoardDto> getList() {
-		List<BoardDto> list=dao.getListDao();
+	public List<BoardDto> getList(Pagination paging) {
+		List<BoardDto> list=dao.getListDao(paging);
 		return list;
 	}
 
 	@Override
-	public BoardDto getWritting() {
-		// TODO Auto-generated method stub
+	public Integer[] getPageList(Integer pageNum) {
+	 
 		return null;
 	}
+
+	@Override
+	public BoardDto getWritting(int idx) {
+		BoardDto dto = dao.getWrittingDao(idx);
+		return dto;
+	}
+	
+	@Override
+	public void hit(int idx) {
+		dao.hitDao(idx);
+	}
+
+	@Override
+	public int countContents() {
+		return dao.countListDao();
+	}
+
+
 
 }

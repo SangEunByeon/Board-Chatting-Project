@@ -12,9 +12,25 @@
 	 #{file1}, #{file2}, #{file3}, #{file4}, #{file5},#{hit}, #{reg})
 	</insert>
 	
+	<update id="hitDao">
+	UPDATE BOARD SET HIT = hit +1 WHERE IDX = #{idx}
+	</update>
 	
-	<select id="getListDao" resultType="com.example.demo.dto.BoardDto">
-	SELECT * FROM BOARD ORDER BY reg DESC;
+	<select id="getListDao"  parameterType="com.example.demo.dto.Pagination" 
+	resultType="com.example.demo.dto.BoardDto">
+	select R1.* FROM(
+	SELECT * FROM BOARD 
+        order by idx asc
+		) R1
+		LIMIT #{contentNum} OFFSET #{startIdx} 
+	</select>
+	
+	<select id="getWrittingDao" resultType="com.example.demo.dto.BoardDto">
+	SELECT * FROM BOARD WHERE IDX = #{param1}
+	</select>
+	
+	<select id="countListDao" resultType="int">
+	SELECT COUNT(*) FROM BOARD
 	</select>
 
 </mapper>

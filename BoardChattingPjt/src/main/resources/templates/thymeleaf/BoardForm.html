@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8" />
+
+<title>Welcome!</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+	<style>
+	/* header */
+		.main_title{
+		font-family: 'Do Hyeon', sans-serif;
+		color : white;
+		}
+		.nav-link{
+		font-family: 'Do Hyeon', sans-serif;
+		font-size: 25px;
+		margin-top: 30px;
+		}
+		.nav-tabs{
+		background-color : #A9BCF5;
+		}
+		a{
+		color : #000;
+		}
+		p{
+		font-family: 'Do Hyeon', sans-serif;
+		font-size: 25px;
+		}
+	/* main */
+		.BoardWrapper{
+		display: flex;
+		justify-content: center;
+		text-align: center;
+		}
+		.BoardDiv{
+		margin-top: 90px;
+		width: 1000px;
+		}
+		p{
+		font-family: 'Do Hyeon', sans-serif;
+		font-size: 30px;
+		}
+		.paging{
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		}
+	</style>
+</head>
+
+<body>
+<!-- 헤더 -->
+<nav>
+	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+	    <span style="margin: 30px;"><h2 class="main_title">실시간 회원제 채팅 서비스</h2></span>
+	    
+	    <!-- 세션 아이디가 없을 때 : 로그아웃 상태 -->
+	    <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="MainForm" role="tab" aria-controls="nav-home" aria-selected="true">메인화면</a>
+	    <a class="nav-link" id="nav-friend-tab" data-bs-toggle="tab" href="#nav-friend" role="tab" aria-controls="nav-friend" aria-selected="false">친구찾기</a>
+	    <a class="nav-link" id="nav-talk-tab" data-bs-toggle="tab" href="#nav-talk" role="tab" aria-controls="nav-talk" aria-selected="false">채팅방</a>
+	    <a class="nav-link" id="nav-board-tab" data-bs-toggle="tab" href="BoardForm" role="tab" aria-controls="nav-board" aria-selected="false">자유게시판</a>
+	    <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="Profile" role="tab" aria-controls="nav-profile" aria-selected="false">프로필</a>
+		<a class="nav-link" id="nav-logouttab" data-bs-toggle="tab" href="logoutAction" role="tab" aria-controls="nav-logout" aria-selected="false">로그아웃</a>
+		
+	  </div>
+	</nav>
+	
+<!-- 헤더 -->
+<div class="BoardWrapper">
+	<div class="BoardDiv">
+	<p>자유 게시판</p>
+	<table class="table table-striped">
+	
+	<form action="search" method="post">
+		<select>
+			<option value="title">제목</option>
+			<option value="writer">작성자</option>
+			<option value="contents">내용</option>
+		</select>
+		<input type="text" placeholder="검색어를 입력해주세요.">
+		<button class="btn btn-primary" type="submit">검색</button>
+	</form>
+	<br/>
+	
+	<thead>
+	<tr>
+		<td>번호</td>
+		<td>카테고리</td>
+		<td style="width: 150px;">제목</td>
+		<td>작성자</td>
+		<td style="width: 200px;">작성일</td>
+		<td>조회</td>
+	</tr>
+	</thead>
+	
+
+  <tbody>
+    <tr th:each="board : ${boardList}">
+      <td th:text="${board.idx}"></td>
+      <td th:text="${board.category}"></td>
+      <td th:text="${board.title}"></td>
+      <td th:text="${board.writer}"></td>
+      <td th:text="${board.reg}"></td>
+      <td th:text="${board.hit}"></td>
+    </tr>
+  </tbody> 
+  
+	</table>
+	
+	<div class="paging">
+	<nav aria-label="Page navigation example ">
+	  <ul class="pagination">
+	  <li class="page-item">
+	      <a class="page-link" th:href="@{/BoardForm?page=1}" aria-label="Previous">
+	        <span aria-hidden="true">처음</span>
+	      </a>
+	    </li>
+	    <li class="page-item">
+	      <a class="page-link" th:href="@{/BoardForm(page = ${pagination.prevBlock})}" aria-label="Previous">
+	        <span aria-hidden="true">이전</span>
+	      </a>
+	    </li>
+	    <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+		    <li class="page-item" 
+		    		 th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+		    		th:each="pageButton : ${#numbers.sequence(start, end)}">
+		    		<a class="page-link" th:href="@{/BoardForm(page = ${pageButton})}" th:text=${pageButton}></a>
+		    </li>
+	    </th:block>
+	    <li class="page-item">
+	      <a class="page-link" th:href="@{/BoardForm(page = ${pagination.nextBlock})}" aria-label="Next">
+	        <span aria-hidden="true">다음</span>
+	      </a>
+	    </li>
+	    <li class="page-item">
+	      <a class="page-link" th:href="@{/BoardForm(page = ${pagination.totalPages})}" aria-label="Previous">
+	        <span aria-hidden="true">끝</span>
+	      </a>
+	    </li>
+	  </ul>
+	</nav>
+	</div>
+</div>
+</div>
+
+
+</body>
+
+</html>
+

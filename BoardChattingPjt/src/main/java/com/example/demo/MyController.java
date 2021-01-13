@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,8 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.example.demo.dto.BoardDto;
+import com.example.demo.dto.MemberDto;
+import com.example.demo.dto.Pagination;
 import com.example.demo.service.IBoardService;
 import com.example.demo.service.IMemberService;
 import com.example.demo.service.ITestService;
@@ -84,9 +89,33 @@ public class MyController {
 	
 	// 게시판폼
 	@RequestMapping("BoardForm")
-	public String BoardForm(Model model) { 
-		model.addAttribute("list",bs.getList());
-		return "BoardForm"; }
+	public String BoardForm(Model model, HttpServletRequest request,
+			@RequestParam(value="page", defaultValue = "1") int pageNum) {
+			// page 이름으로 넘어오면 값을 받고, 없을 경우에는 1로 설정
+		
+		int totalContent = bs.countContents();  // 전체 게시글 수
+		String s_pageNum = request.getParameter("page");
+		int i_pageNum;
+		HttpSession session=request.getSession();
+		String sessionID=(String)session.getAttribute("sessionID");
+		
+		if(s_pageNum==null) { // 1page
+			i_pageNum = 1;
+		} else { // 2page 이상	
+			i_pageNum = Integer.parseInt(s_pageNum);
+		} 
+		
+		Pagination paging = new Pagination(i_pageNum, totalContent);
+		List<BoardDto> list = bs.getList(paging);
+		MemberDto memberInfo= mem.getMemInfo(sessionID);
+		System.out.println("page정보:"+paging.toString());
+		
+		model.addAttribute("boardList",list);
+		model.addAttribute("pagination",paging);
+		model.addAttribute("member",memberInfo);
+			
+		return "thymeleaf/BoardForm";
+	}
 	
 	// 프로필 폼
 	@RequestMapping("Profile")
@@ -106,17 +135,45 @@ public class MyController {
 				MultipartHttpServletRequest fileList, Model model) throws Exception {
 		bs.write(request, fileList, model);
 		model.addAttribute("msg","글이 등록되었습니다.");
-		model.addAttribute("url","WriteForm");
+		model.addAttribute("url","BoardForm");
 		return "redirect";
 	}
 	
 	// 글보기 폼
 	@RequestMapping("BoardDetail")
-	public String BoardDetail(HttpServletRequest request) {
+	public String BoardDetail(HttpServletRequest request, Model model) {
 		String s_idx = request.getParameter("idx");
 		int idx = Integer.parseInt(s_idx);
+		bs.hit(idx);  // 조회수 올리기
+		BoardDto dto=bs.getWritting(idx);
+		model.addAttribute("dto",dto);
 		return "BoardDetail";
 	}
+	
+
 
 	
 }
+/*@RequestMapping("BoardForm")
+public String BoardForm(Model model, HttpServletRequest request,
+	@RequestParam(value="page", defaultValue = "1") int pageNum) { 
+	// page 이름으로 넘어오면 값을 받고, 없을 경우에는 1로 설정
+	int totalContent = bs.countContents();  // 전체 게시글 수
+	String s_pageNum = request.getParameter("page");
+	int i_pageNum;
+	
+	if(s_pageNum==null) {i_pageNum = 1;} // 1page
+	else { i_pageNum = Integer.parseInt(s_pageNum);} // 2page 이상	
+	Pagination paging = new Pagination(i_pageNum, totalContent);
+	
+	//System.out.println("전체 게시물: "+totalContent+", 현재 페이지: "+i_pageNum);
+	//System.out.println("전체 페이지수 :"+ paging.calTotalPage(totalContent, 5));
+	
+	List<BoardDto> list = bs.getList(paging);
+	Integer pageList[] = {1,2};
+	model.addAttribute("list",list);
+	model.addAttribute("pagination",paging);
+			
+	
+	return "BoardForm"; 
+	}*/

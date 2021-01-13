@@ -28,6 +28,11 @@
 	font-size: 30px;
 	}
 	</style>
+	<script type="text/javascript">
+	function BoardForm(){
+		location.href="BoardForm"
+			}
+	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/Header.jsp"/>
@@ -62,7 +67,7 @@
 			<input type="hidden" name="writer" value="${id}"/>
 		</table>
 		<button type="submit" class="btn btn-primary">등록</button>
-		<button type="button" class="btn btn-outline-primary">취소</button>
+		<button type="button" class="btn btn-outline-primary" onclick="BoardForm()">취소</button>
 		</form>
 	</div>
 </div>

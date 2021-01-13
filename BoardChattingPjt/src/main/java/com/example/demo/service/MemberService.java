@@ -67,4 +67,9 @@ public class MemberService implements IMemberService{
 		return result;
 	}
 
+	@Override
+	public MemberDto getMemInfo(String id) {
+		return dao.getMemInfoDao(id);
+	}
+
 }
